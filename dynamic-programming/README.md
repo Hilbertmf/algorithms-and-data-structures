@@ -46,15 +46,15 @@ Now we have to find the recurrence relation that solves one subproblem and exten
 
 We have to maximize between two choices: we either use the current item or we don't use it.
 
-So it would be roughly: ``max(include_ith, exclude_ith)``
+So it would be roughly: ``max(includeIth, excludeIth)``
 
 When we use the item we're gonna add its value and reduce its weight from the capacity:
 ```
-include_ith = value[n] + f(n-1, C - weigth[n])
+includeIth = value[n] + f(n-1, C - weigth[n])
 ```
 When we don't use it we just reduce number of items by one:
 ```
-exclude_ith = f(n-1, C)
+excludeIth = f(n-1, C)
 ```
 So our recurrence relation would be:
 ```
@@ -77,10 +77,10 @@ int knapSack(int numItems, int capacity, int weigth[], int value[], int cache[][
   else if (weigth[numItems-1] > capacity)
     result = knapSack(numItems - 1, capacity, weigth, value, cache);
   else {
-    int include_ith, exclude_ith;
-    include_ith = value[numItems-1] + knapSack(numItems - 1, capacity - weigth[numItems - 1], weigth, value, cache);
-    exclude_ith = knapSack(numItems - 1, capacity, weigth, value, cache);
-    result = max(include_ith, exclude_ith);
+    int includeIth, excludeIth;
+    includeIth = value[numItems-1] + knapSack(numItems - 1, capacity - weigth[numItems - 1], weigth, value, cache);
+    excludeIth = knapSack(numItems - 1, capacity, weigth, value, cache);
+    result = max(includeIth, excludeIth);
   }
   cache[numItems][capacity] = result;
   return result;
@@ -108,7 +108,7 @@ int main () {
 Bottom up C++ implementation:
 ``` C++
 int knapSack(int numItems, int capacity, int weigth[], int value[]) {
-  int result, include_ith, exclude_ith;
+  int result, includeIth, excludeIth;
   int cache[numItems+1][capacity+1];
   // initialize cache
   memset(cache, 0, sizeof(cache));
@@ -119,12 +119,12 @@ int knapSack(int numItems, int capacity, int weigth[], int value[]) {
       if (i == 0 || w == 0)
         cache[i][w] = 0;
       // if it weighs more than capacity we cannot use the item
-      else if (weigth[i-1] > capacity)
+      else if (weigth[i-1] > w)
         cache[i][w] = cache[i-1][w];
       else {
-        include_ith = value[i-1] + cache[i-1][w - weigth[i-1]];
-        exclude_ith = cache[i-1][w];
-        cache[i][w] = max(include_ith, exclude_ith);
+        includeIth = value[i-1] + cache[i-1][w - weigth[i-1]];
+        excludeIth = cache[i-1][w];
+        cache[i][w] = max(includeIth, excludeIth);
       }
     }
   }
