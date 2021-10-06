@@ -119,7 +119,7 @@ int knapSack(int numItems, int capacity, int weigth[], int value[]) {
       if (i == 0 || w == 0)
         cache[i][w] = 0;
       // if it weighs more than capacity we cannot use the item
-      else if (weigth[i-1] > capacity)
+      else if (weigth[i-1] > w)
         cache[i][w] = cache[i-1][w];
       else {
         includeIth = value[i-1] + cache[i-1][w - weigth[i-1]];
