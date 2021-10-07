@@ -40,7 +40,7 @@ f(n, 0) = 0 ; for any n
 ```
 We also have a constraint: the item can only be stored if it fits the knapsack, otherwise we cannot use it:
 ```
-if weigth[n] > C : return f(n-1, C)
+if weight[n] > C : return f(n-1, C)
 ```
 Now we have to find the recurrence relation that solves one subproblem and extend it. The recurrence relation is as follows:
 
@@ -50,7 +50,7 @@ So it would be roughly: ``max(includeIth, excludeIth)``
 
 When we use the item we're gonna add its value and reduce its weight from the capacity:
 ```
-includeIth = value[n] + f(n-1, C - weigth[n])
+includeIth = value[n] + f(n-1, C - weight[n])
 ```
 When we don't use it we just reduce number of items by one:
 ```
@@ -58,14 +58,14 @@ excludeIth = f(n-1, C)
 ```
 So our recurrence relation would be:
 ```
-f(n, C) = max(value[n] + f(n-1, C - weigth[n]), f(n-1, C))
+f(n, C) = max(value[n] + f(n-1, C - weight[n]), f(n-1, C))
 ```
 To turn it into a dynamic programming solution we'd use a 2 dimensional table to store our previous work cache[n+1][C+1]
 The order could be top down or bottom up, its up to you. The answer is at ``f(n, C)``
 
 Top down C++ implementation using recursion:
 ``` C++
-int knapSack(int numItems, int capacity, int weigth[], int value[], int cache[][]) {
+int knapSack(int numItems, int capacity, int weight[], int value[], int cache[][]) {
   int result;
   // using our cache table to remember
   if (cache[numItems][capacity] != -1)
@@ -74,12 +74,12 @@ int knapSack(int numItems, int capacity, int weigth[], int value[], int cache[][
   if (numItems == 0 || capacity == 0)
     result = 0;
   // if it weighs more than capacity we cannot use the item
-  else if (weigth[numItems-1] > capacity)
-    result = knapSack(numItems - 1, capacity, weigth, value, cache);
+  else if (weight[numItems-1] > capacity)
+    result = knapSack(numItems - 1, capacity, weight, value, cache);
   else {
     int includeIth, excludeIth;
-    includeIth = value[numItems-1] + knapSack(numItems - 1, capacity - weigth[numItems - 1], weigth, value, cache);
-    excludeIth = knapSack(numItems - 1, capacity, weigth, value, cache);
+    includeIth = value[numItems-1] + knapSack(numItems - 1, capacity - weight[numItems - 1], weight, value, cache);
+    excludeIth = knapSack(numItems - 1, capacity, weight, value, cache);
     result = max(includeIth, excludeIth);
   }
   cache[numItems][capacity] = result;
@@ -89,7 +89,7 @@ int knapSack(int numItems, int capacity, int weigth[], int value[], int cache[][
 int main () {
   int numItems, capacity;
   cin >> numItems >> capacity;
-  int weigth[numItems+1];
+  int weight[numItems+1];
   int value[numItems+1];
   int cache[numItems+1][capacity+1];
   
@@ -98,31 +98,33 @@ int main () {
 
   // get input
   for(int i = 0; i < numItems; i++)
-    cin >> weigth[i] >> value[i];
+    cin >> weight[i] >> value[i];
     
-  cout << knapSack(numItems, capacity, weigth, value, cache) << endl;
+  cout << knapSack(numItems, capacity, weight, value, cache) << endl;
   return 0;
 }
 ```
 
 Bottom up C++ implementation:
 ``` C++
-int knapSack(int numItems, int capacity, int weigth[], int value[]) {
-  int result, includeIth, excludeIth;
+int knapSack(int numItems, int capacity, int weight[], int value[]) {
+  int result, includeIth, excludeIth, currWeight, currValue;
   int cache[numItems+1][capacity+1];
   // initialize cache
   memset(cache, 0, sizeof(cache));
   
   for(int i = 0; i <= numItems; i++) {
     for(int w = 0; w <= capacity; w++) {
+      currWeight = weight[i-1];
+      currValue = value[i-1];
       // base cases
       if (i == 0 || w == 0)
         cache[i][w] = 0;
       // if it weighs more than capacity we cannot use the item
-      else if (weigth[i-1] > w)
+      else if (currWeight > w)
         cache[i][w] = cache[i-1][w];
       else {
-        includeIth = value[i-1] + cache[i-1][w - weigth[i-1]];
+        includeIth = currValue + cache[i-1][w - currWeight];
         excludeIth = cache[i-1][w];
         cache[i][w] = max(includeIth, excludeIth);
       }
@@ -136,14 +138,32 @@ int knapSack(int numItems, int capacity, int weigth[], int value[]) {
 int main () {
   int numItems, capacity;
   cin >> numItems >> capacity;
-  int weigth[numItems+1];
+  int weight[numItems+1];
   int value[numItems+1];
 
   // get input
   for(int i = 0; i < numItems; i++)
-    cin >> weigth[i] >> value[i];
+    cin >> weight[i] >> value[i];
     
-  cout << knapSack(numItems, capacity, weigth, value) << endl;
+  cout << knapSack(numItems, capacity, weight, value) << endl;
   return 0;
+}
+```
+## How to find our solution?
+One way to find our solution is iterate through our memoization table. We define a vector to store our solution. If our solution includes the last item then we add it to the vector and decrease its weight from the capacity, if not we keep looking. We keep looping while our iterator and the current capacity are greater than zero:
+``` C++
+vector<int> solution;
+
+// populate solution:
+for (int i = numItems, w = capacity; i > 0 && w > 0; i--) {
+  currWeight = weights[i-1];
+  currValue = profits[i-1];
+
+  include = currValue + cache[i-1][w-currWeight];
+
+  if (cache[i][w] == include) {
+    solution.push_back(currWeight);
+    w -= currWeight;
+  }
 }
 ```
