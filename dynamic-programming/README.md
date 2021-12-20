@@ -60,8 +60,14 @@ So our recurrence relation would be:
 ```
 f(n, C) = max(value[n] + f(n-1, C - weight[n]), f(n-1, C))
 ```
-To turn it into a dynamic programming solution we'd use a 2 dimensional table to store our previous work cache[n+1][C+1]
-The order could be top down or bottom up, its up to you. The answer is at ``f(n, C)``
+To turn it into a dynamic programming solution we'd use a 2 dimensional table to store our previous work in cache[n+1][C+1]<br>
+The order could be top down or bottom up, its up to you.
+
+Using this recurrence relation with prefixes ``(n-1)`` the order of execution for the outer loop is from ``0 to n-1``  and from ``0 to C-1`` for the nested loop.
+
+The answer is at ``f(n, C)``
+
+We could also use suffixes ``(n+1)``, the difference would be that our order of execution for the outer loop would be from ``n-1 to 0`` and our answer would be at ``f(0, C)``
 
 Top down C++ implementation using recursion:
 ``` C++
