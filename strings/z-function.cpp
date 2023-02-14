@@ -1,6 +1,14 @@
 #include <bits/stdc++.h> 
 using namespace std;
 
+int advance_right(string& s, int left, int right) {
+    while(right < s.size() && s[right - left] == s[right]) {
+        ++right;
+    }
+    --right;
+    return right;
+}
+
 vector<int> z_func(string& pattern, string& text) {
 
     string s = pattern + "$" + text;
@@ -10,10 +18,7 @@ vector<int> z_func(string& pattern, string& text) {
     for(int i = 1; i < s.size(); ++i) {
         if(i > right) {
             left = right = i;
-            while(right < s.size() && s[right - left] == s[right]) {
-                ++right;
-            }
-            --right;
+            right = advance_right(s, left, right);
             z[i] = right - left + 1;
         }
         else { // inside z-box
@@ -24,10 +29,7 @@ vector<int> z_func(string& pattern, string& text) {
             else {
                 // reset z-box and try to expand it
                 left = i;
-                while(right < s.size() && s[right - left] == s[right]) {
-                    ++right;
-                }
-                --right;
+                right = advance_right(s, left, right);
                 z[i] = right - left + 1;
             }
         }
@@ -40,8 +42,6 @@ int main() {
     cin >> pat >> txt;
 
     vector<int> z = z_func(pat, txt);
-
-    // find patterns in txt:
     vector<int> ans; // array w/ indices of pattern match
 
     for(int i = pat.size() + 1; i < z.size(); ++i) {
