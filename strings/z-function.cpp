@@ -22,8 +22,10 @@ vector<int> z_func(string& pattern, string& text) {
             z[i] = right - left + 1;
         }
         else { // inside z-box
+            // position inside the box compared to pattern
             int i1 = i - left;
-            if(z[i1] < right - i + 1) { // if right can't exceed z-box
+            // if i can't touch right border of z-box
+            if(z[i1] + i - 1 < right) {
                 z[i] = z[i1];
             }
             else {
@@ -50,6 +52,12 @@ int main() {
 
     for(auto &item : ans) {
         cout << item << " ";
+    }
+
+    cout << "\n";
+    // print elems of z array
+    for(int i = pat.size()+1; i < z.size(); ++i) {
+        cout << z[i] << " ";
     }
 
     return 0;
