@@ -113,6 +113,8 @@ int main () {
 
 Bottom up C++ implementation:
 ``` C++
+// time: O(n*C)
+// space: O(n*C)
 int knapSack(int numItems, int capacity, int weight[], int value[]) {
   int result, includeIth, excludeIth, currWeight, currValue;
   int cache[numItems+1][capacity+1];
@@ -172,4 +174,68 @@ for (int i = numItems, w = capacity; i > 0 && w > 0; i--) {
     w -= currWeight;
   }
 }
+```
+## Optimizing space
+If you take a closer look at the code, you'll notice that in any given iteration we are only using the rows `cache[i]` and `cache[i-1]`. That means that instead of using n+1 rows we can answer the problem with only 2 rows. However we have to copy the second row into the first one at every iteration of the inner loop:
+``` C++
+// time: O(n*C)
+// space: O(C)
+int knapSack(int numItems, int capacity, int weight[], int value[]) {
+  int result, includeIth, excludeIth, currWeight, currValue;
+  vector<vector<int>> cache(2, vector<int>(capacity+1));
+  
+  for(int i = 1; i <= numItems; i++) {
+    for(int w = 1; w <= capacity; w++) {
+      if(w != 1) cache[0] = cache[1];
+      currWeight = weight[i-1];
+      currValue = value[i-1];
+      // if it weighs more than capacity we cannot use the item
+      if (currWeight > w)
+        cache[1][w] = cache[0][w];
+      else {
+        includeIth = currValue + cache[0][w - currWeight];
+        excludeIth = cache[0][w];
+        cache[1][w] = max(includeIth, excludeIth);
+      }
+    }
+  }
+  
+  result = cache[1][capacity];
+  return result;
+}
+
+```
+We can optimize this code even more using pointers so we don't have to spend linear time copying the array:
+``` C++
+// time: O(n*C)
+// space: O(C)
+int knapSack(int numItems, int capacity, int weight[], int value[]) {
+  int result, includeIth, excludeIth, currWeight, currValue;
+  vector<vector<int>> cache(2, vector<int>(capacity+1));
+  vector<int> *ptr0, *ptr1, *aux;
+  
+  for(int i = 1; i <= numItems; i++) {
+    for(int w = 1; w <= capacity; w++) {
+      if(w != 1) {
+        aux = ptr0;
+        ptr0 = ptr1;
+        ptr1 = aux;
+      }
+      currWeight = weight[i-1];
+      currValue = value[i-1];
+      // if it weighs more than capacity we cannot use the item
+      if (currWeight > w)
+        (*ptr1)[w] = (*ptr0)[w];
+      else {
+        includeIth = currValue + (*ptr0)[w - currWeight];
+        excludeIth = (*ptr0)[w];
+        (*ptr1)[w] = max(includeIth, excludeIth);
+      }
+    }
+  }
+  
+  result = (*ptr1)[capacity];
+  return result;
+}
+
 ```
