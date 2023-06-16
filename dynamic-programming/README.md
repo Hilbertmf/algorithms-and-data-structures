@@ -166,6 +166,7 @@ vector<int> solution;
 for (int i = numItems, w = capacity; i > 0 && w > 0; i--) {
   currWeight = weights[i-1];
   currValue = profits[i-1];
+  if (currWeight > w) continue;
 
   include = currValue + cache[i-1][w-currWeight];
 
