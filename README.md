@@ -7,3 +7,19 @@
 - **[Math](/math/)**
   - **[Basic Math](/math/basic-math)**
   - **[Number Theory](/math/number-theory)**
+
+# Topics to study and implement later:
+- Binary exponentiation
+- Matrix exponentiation
+- FFT
+- Suffix Array
+- Segment trees: Lazy propagation, sparse tree, persistent, dynamic, segtree beats etc
+- SQRT Decomposition
+- HLD
+- Sweep Line
+- Euler Tour
+- Binary lifting
+- Centroid Decomposition
+- Treaps
+- Max flow min cut
+- Z algorithm / KMP
