@@ -6,5 +6,7 @@ int logBaseB(unsigned int n, unsigned int b) {
     while (n >= b) {
         res++;
         n /= b;
-    }return res;
+    }
+
+    return res;
 }
