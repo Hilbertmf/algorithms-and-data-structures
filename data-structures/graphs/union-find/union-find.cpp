@@ -46,7 +46,7 @@ public:
     }
 
     int groupSize(int node) {
-        return group_sizes[node];
+        return group_sizes[find(node)];
     }
 
     int size() {
