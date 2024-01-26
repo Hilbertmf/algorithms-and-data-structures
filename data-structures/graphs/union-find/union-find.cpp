@@ -3,6 +3,8 @@ using namespace std;
 
 class UnionFind {
 
+public:
+
     vector<int> parents;
     vector<int> group_sizes;
     int num_elems;
@@ -54,9 +56,8 @@ class UnionFind {
     int numComponents() {
         return num_groups;
     }
-
     
-    int join(int node1, int node2) {
+    void join(int node1, int node2) {
 
         int root1 = find(node1);
         int root2 = find(node2);
