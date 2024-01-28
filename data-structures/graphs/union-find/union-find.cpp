@@ -1,6 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// time: O(n) amortized
+// space: O(n)
 class UnionFind {
 
 public:
@@ -56,7 +58,7 @@ public:
     int numComponents() {
         return num_groups;
     }
-    
+
     void join(int node1, int node2) {
 
         int root1 = find(node1);
@@ -73,7 +75,7 @@ public:
             group_sizes[root2] += group_sizes[root1];
             parents[root1] = root2;
         }
-        
+
         num_groups--;
     }
 };
