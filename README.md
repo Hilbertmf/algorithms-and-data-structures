@@ -1,11 +1,15 @@
-# algorithms and data structures
+# Algorithms and data structures for competitive programming
 - **[Dynamic Programming](/dynamic-programming/)**
 - **[Data Structures](/data-structures/)**
-  - **[Trees](/data-structures/trees/)**
-    - **[Segment Tree](/data-structures/trees/segment-trees/segtree-array.cpp)**
-    - **[LCA via Binary Lifting](/data-structures/trees/lca-binary-lifting.cpp)**
-  - **[Graphs](/data-structures/graphs/)**
-    - **[Union Find](/data-structures/graphs/union-find)**
+  - **[Segment Tree](/data-structures/segtree-array.cpp)**
+  - **[Union Find](/data-structures/union-find.cpp)**
+- **[Graphs](/graphs/)**
+  - **[Topological Sorting](/graphs/kahn-topsort.cpp)**
+  - **[Minimum Spaning Tree (Kruskal)](/graphs/kruskal.cpp)**
+  - **[Dijkstra](/graphs/dijkstra.cpp)**
+  - **[Floyd-Warshall](/graphs/floyd-warshall.cpp)**
+  - **[Bipartite verification](/graphs/bipartite-verification.cpp)**
+  - **[LCA via Binary Lifting](/graphs/lca-binary-lifting.cpp)**
 - **[Math](/math/)**
   - **[Basic Math](/math/basic-math)**
   - **[Number Theory](/math/number-theory)**
