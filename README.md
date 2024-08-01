@@ -3,7 +3,7 @@
 - **[Data Structures](/data-structures/)**
   - **[Trees](/data-structures/trees/)**
     - **[Segment Tree](/data-structures/trees/segment-trees)**
-    - **[LCA via Binary Lifting](/data-structures/trees/lca-binary-lifting)**
+    - **[LCA via Binary Lifting](/data-structures/trees/lca-binary-lifting.cpp)**
   - **[Graphs](/data-structures/graphs/)**
     - **[Union Find](/data-structures/graphs/union-find)**
 - **[Math](/math/)**
