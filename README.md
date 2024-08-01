@@ -2,26 +2,40 @@
 - **[Dynamic Programming](/dynamic-programming/)**
 - **[Data Structures](/data-structures/)**
   - **[Trees](/data-structures/trees/)**
-    - **[Segment Tree](/data-structures/trees/segment-trees)**
+    - **[Segment Tree](/data-structures/trees/segment-trees/segtree-array.cpp)**
     - **[LCA via Binary Lifting](/data-structures/trees/lca-binary-lifting.cpp)**
   - **[Graphs](/data-structures/graphs/)**
     - **[Union Find](/data-structures/graphs/union-find)**
 - **[Math](/math/)**
   - **[Basic Math](/math/basic-math)**
   - **[Number Theory](/math/number-theory)**
+    - **[Binary Exp](/math/number-theory/binary-exponentiation.cpp)**
+    - **[Get dividers](/math/number-theory/get-dividers.cpp)**
+    - **[Prime factorization](/math/number-theory/prime-factorization.cpp)**
+    - **[Sieve of Eratosthenes](/math/number-theory/sieve-of-eratosthenes.cpp)**
+- **[Strings](/strings/)**
+  - **[Z function](/strings/z-function.cpp)**
 
 # Topics to study and implement later:
-- [ ] Binary exponentiation
-- [ ] Matrix exponentiation
-- [ ] FFT
-- [ ] Suffix Array
-- [ ] Segment trees: Lazy propagation, sparse tree, persistent, dynamic, segtree beats etc
-- [ ] SQRT Decomposition
-- [ ] HLD
-- [ ] Sweep Line
-- [ ] Euler Tour
-- [x] Binary lifting V
-- [ ] Centroid Decomposition
-- [ ] Treaps
-- [ ] Max flow min cut
+- [x] Binary exponentiation
+- [x] Union Find
 - [x] Z algorithm / KMP
+- [x] Binary lifting / LCA
+- [ ] Functional graphs
+- [ ] Tarjan
+- [ ] Dp w/ bitmask
+- [ ] Expected value
+- [ ] Inclusion-Exclusion principle
+- [ ] Segment trees: Lazy propagation, sparse tree, persistent, dynamic, segtree beats etc
+- [ ] Max flow min cut
+- [ ] Bridges and articulation points
+- [ ] Cycle detection
+- [ ] Euler Tour
+- [ ] Matrix exponentiation
+- [ ] Euler path
+- [ ] Suffix Array
+- [ ] HLD
+- [ ] Centroid Decomposition
+- [ ] FFT
+- [ ] Sweep Line
+- [ ] Treaps
