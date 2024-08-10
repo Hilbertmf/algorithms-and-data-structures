@@ -1,48 +1,56 @@
 #include <bits/stdc++.h>
 using namespace std;
+#define MID(a, b) (a + b) / 2
 
-struct segtree {
+bool leaf(int from, int to) {
+    return from == to;
+}
+bool allIn(int from, int to, int l, int r) {
+    return l <= from && to <= r;
+}
+bool allOut(int from, int to, int l, int r) {
+    return to < l || r < from;
+}
+
+class Segtree {
+public:
     int size;
-    vector<int> sums;
+    vector<int> nodes;
 
-    void init(int _size) {
-        size = _size;
-        sums = vector<int>(size * 4);
+    void init(int n) {
+        size = n;
+        nodes.resize(n * 4);
     }
 
-    void update(int pos, int val) {
-        update(pos, val, 0, size - 1, 0);
+    int query(int l, int r, int node, int from, int to) {
+        // totally inside this node range
+        if (allIn(from, to, l, r))
+            return nodes[node];
+        // totally outside
+        else if (allOut(from, to, l, r))
+            return 0;
+        int mid = MID(from, to);
+        return query(l, r, 2*node+1, from, mid) +
+               query(l, r, 2*node+2, mid + 1, to);
+    }
+    int query(int left, int right) {
+        return query(left, right, 0, 0, size - 1);
     }
 
-    void update(int pos, int val, int left, int right, int node) {
-        // if leaf
-        if(left == right)
-            sums[node] = val;
+    void update(int pos, int val, int node, int from, int to) {
+        if (leaf(from, to))
+            nodes[node] = val;
         else {
-            int mid = (left + right) / 2;
-            if(pos <= mid)
-                update(pos, val, left, mid, 2*node + 1);
+            int mid = MID(from, to);
+            if (pos <= mid)
+                update(pos, val, 2*node+1, from, mid);
             else
-                update(pos, val, mid + 1, right, 2*node + 2);
+                update(pos, val, 2*node+2, mid + 1, to);
             // update ancestrals
-            sums[node] = sums[2*node + 1] + sums[2*node + 2];
+            nodes[node] = nodes[2*node + 1] + nodes[2*node + 2];
         }
     }
-
-    int querySum(int queryLeft, int queryRight) {
-        return querySum(0, size - 1, 0, queryLeft, queryRight);
+    void update(int pos, int val) {
+        update(pos, val, 0, 0, size - 1);
     }
-    
-    int querySum(int left, int right, int node, int queryLeft, int queryRight) {
-        // totally inside range
-        if(queryLeft <= left && queryRight >= right)
-            return sums[node];
-        // totally outside
-        if(left > queryRight || right < queryLeft)
-            return 0;
-        int mid = (left + right) / 2;
-        return querySum(left, mid, 2*node + 1, queryLeft, queryRight) +
-                querySum(mid + 1, right, 2*node + 2, queryLeft, queryRight);
-    }
-
 };
