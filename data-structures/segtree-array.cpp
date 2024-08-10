@@ -22,6 +22,22 @@ public:
         nodes.resize(n * 4);
     }
 
+    void build(vector<int>& vals, int node, int from, int to) {
+        if (leaf(from, to)) {
+            nodes[node] = vals[from];
+        }
+        else {
+            int mid = MID(from, to);
+            build(vals, 2*node+1, from, mid);
+            build(vals, 2*node+2, mid + 1, to);
+            nodes[node] = nodes[2*node+1] + nodes[2*node+2];
+        }        
+    }
+
+    void build(vector<int>& vals) {
+        build(vals, 0, 0, size - 1);
+    }
+
     int query(int l, int r, int node, int from, int to) {
         // totally inside this node range
         if (allIn(from, to, l, r))
