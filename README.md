@@ -10,6 +10,7 @@
   - **[Floyd-Warshall](/graphs/floyd-warshall.cpp)**
   - **[Bipartite verification](/graphs/bipartite-verification.cpp)**
   - **[LCA via Binary Lifting](/graphs/lca-binary-lifting.cpp)**
+  - **[Tarjan - Strong Connected Components (SCCs)](/graphs/tarjan-scc.cpp)**
 - **[Math](/math/)**
   - **[Basic Math](/math/basic-math)**
   - **[Number Theory](/math/number-theory)**
