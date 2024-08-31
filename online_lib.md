@@ -14,12 +14,15 @@
   - **[Tarjan - Strong Connected Components (SCCs)](#tarjan---strong-connected-components-sccs)**
 - **[Math](#math)**
   - **[Number Theory](#number-theory)**
+    - **[Primality Test](#primality-test)**
     - **[Binary Exponentiation](#binary-exponentiation)**
     - **[Sieve of Eratosthenes](#sieve-of-eratosthenes)**
     - **[Segmented Sieve](#segmented-sieve)**
     - **[Binomial Coefficient](#binomial-coefficient)**
+    - **[Totient Function](#totient-function)**
 - **[Strings](#strings)**
   - **[Z Function](#z-function)**
+  - **[Hashing - Zobrist Hash](#hashing---zobrist-hash)**
 
 ## Data Structures
 
@@ -1067,6 +1070,76 @@ int main() {
         cout << z[i] << " ";
     }
 
+    return 0;
+}
+```
+
+### Hashing - Zobrist Hash
+Determine if two sets are equal:
+```cpp
+const long long MOD = (1LL << 61) - 1;
+class ZobristHash {
+public:
+    ZobristHash(const std::vector<int>& A, const std::vector<int>& B) 
+        : A(A), B(B), N(A.size()) {
+        initializeHash();
+        computeCumulativeSums();
+    }
+
+    bool checkHashEquality(int l, int r, int L, int R) const {
+        // Convert to zero-based indexing
+        --l; --r; --L; --R;
+        long long hashA = (cumA[r + 1] - cumA[l] + MOD) % MOD;
+        long long hashB = (cumB[R + 1] - cumB[L] + MOD) % MOD;
+        return hashA == hashB;
+    }
+
+private:
+    const std::vector<int>& A;
+    const std::vector<int>& B;
+    const int N;
+    std::vector<long long> hash;
+    std::vector<long long> cumA;
+    std::vector<long long> cumB;
+
+    void initializeHash() {
+        hash.resize(N);
+        std::mt19937_64 rng(std::random_device{}());
+        std::uniform_int_distribution<long long> dist(1, MOD - 1);
+        for (int i = 0; i < N; ++i) {
+            hash[i] = dist(rng);
+        }
+    }
+
+    void computeCumulativeSums() {
+        cumA.resize(N + 1, 0);
+        cumB.resize(N + 1, 0);
+        for (int i = 0; i < N; ++i) {
+            cumA[i + 1] = (cumA[i] + hash[A[i]]) % MOD;
+            cumB[i + 1] = (cumB[i] + hash[B[i]]) % MOD;
+        }
+    }
+};
+
+int main() {
+    int N, Q;
+    cin >> N >> Q;
+
+    vector<int> A(N), B(N);
+    // read a and b;    
+    for(auto &num : A) cin >> num;
+    for(auto &num : B) cin >> num;
+    ZobristHash zobristHash(A, B);
+    while (Q--) {
+        // check if same elements in (l, r) and (L, R)
+        int l, r, L, R;
+        cin >> l >> r >> L >> R;
+        if (zobristHash.checkHashEquality(l, r, L, R)) {
+            cout << "Yes\n";
+        } else {
+            cout << "No\n";
+        }
+    }
     return 0;
 }
 ```
